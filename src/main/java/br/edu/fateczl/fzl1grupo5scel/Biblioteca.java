@@ -7,14 +7,19 @@ public class Biblioteca {
 
     List<Livro> livros = new ArrayList<>();
 
-    public void cadastrarLivro(Livro livro) {
-        livros.add(livro);
+    public void save(Livro livro) {
+        if(livro != null) {
+            livros.add(livro);
+        }
     }
 
     public boolean isbnJaCadastrado(String isbn) {
-        for(Livro livro : livros) {
-            if(livro.getIsbn().equalsIgnoreCase(isbn)) {
-                return true;
+        if(livros != null) {
+            for (Livro livro : livros) {
+                if (livro.getIsbn().equalsIgnoreCase(isbn)) {
+                    System.out.println("ISBN ja cadastrado!");
+                    return true;
+                }
             }
         }
         return false;
@@ -34,5 +39,13 @@ public class Biblioteca {
 
     private boolean isBlank(String txt) {
         return txt == null || txt.trim().isEmpty();
+    }
+
+    public List<Livro> getLivros() {
+        return livros;
+    }
+
+    public int size() {
+        return this.livros.size();
     }
 }

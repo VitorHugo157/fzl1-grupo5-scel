@@ -18,14 +18,14 @@ class Fzl1Grupo5ScelApplicationTests {
 	@Test
 	public void CT01_CadastrarLivroComSucesso() {
 		Livro livro = new Livro("0001", "Banco de Dados", "Christopher J. Date");
-		biblioteca.cadastrarLivro(livro);
-		assertEquals(1, biblioteca.livros.size());
+		biblioteca.save(livro);
+		assertEquals(1, biblioteca.size());
 	}
 
 	@Test
 	public void CT02_IsbnJaCadastrado() {
 		Livro livro = new Livro("0001", "Banco de Dados", "C. J. Date");
-		biblioteca.cadastrarLivro(livro);
+		biblioteca.save(livro);
 		boolean isIsbnCadastrado = biblioteca.isbnJaCadastrado(livro.getIsbn());
 		assertTrue(isIsbnCadastrado);
 	}
@@ -33,7 +33,7 @@ class Fzl1Grupo5ScelApplicationTests {
 	@Test
 	public void CT03_IsbnEmBranco() {
 		Livro livro = new Livro("", "Banco de Dados", "C. J. Date");
-		biblioteca.cadastrarLivro(livro);
+		//biblioteca.save(livro);
 		boolean isIsbnEmBranco = biblioteca.isbnEmBranco(livro.getIsbn());
 		assertTrue(isIsbnEmBranco);
 	}
@@ -41,7 +41,7 @@ class Fzl1Grupo5ScelApplicationTests {
 	@Test
 	public void CT04_TituloEmBranco() {
 		Livro livro = new Livro("0001", "", "C. J. Date");
-		biblioteca.cadastrarLivro(livro);
+		//biblioteca.save(livro);
 		boolean isTituloEmBranco = biblioteca.tituloEmBranco(livro.getTitulo());
 		assertTrue(isTituloEmBranco);
 	}
@@ -49,7 +49,7 @@ class Fzl1Grupo5ScelApplicationTests {
 	@Test
 	public void CT05_AutorEmBranco() {
 		Livro livro = new Livro("0001", "Banco de Dados", "");
-		biblioteca.cadastrarLivro(livro);
+		//biblioteca.save(livro);
 		boolean isAutorEmBranco = biblioteca.autorEmBranco(livro.getAutor());
 		assertTrue(isAutorEmBranco);
 	}
