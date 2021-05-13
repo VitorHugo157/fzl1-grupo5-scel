@@ -48,4 +48,25 @@ public class Biblioteca {
     public int size() {
         return this.livros.size();
     }
+
+    public String isbnInvalido(String isbn) {
+        if(isBlank(isbn) || !(isbn.length() == 4)) {
+            return "ISBN deve ter 4 caracteres";
+        }
+        return "";
+    }
+
+    public String tituloInvalido(String titulo) {
+        if(isBlank(titulo) || titulo.length() > 50) {
+            return "Titulo deve ter entre 1 e 50 caracteres";
+        }
+        return "";
+    }
+
+    public String autorInvalido(String autor) {
+        if(isBlank(autor) || autor.length() > 50) {
+            return "Autor deve ter entre 1 e 50 caracteres";
+        }
+        return "";
+    }
 }

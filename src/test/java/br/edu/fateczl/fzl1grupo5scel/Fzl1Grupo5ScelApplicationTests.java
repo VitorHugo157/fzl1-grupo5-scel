@@ -3,8 +3,7 @@ package br.edu.fateczl.fzl1grupo5scel;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class Fzl1Grupo5ScelApplicationTests {
@@ -52,6 +51,56 @@ class Fzl1Grupo5ScelApplicationTests {
 		//biblioteca.save(livro);
 		boolean isAutorEmBranco = biblioteca.autorEmBranco(livro.getAutor());
 		assertTrue(isAutorEmBranco);
+	}
+
+	@Test
+	public void CT06_IsbnInvalido() {
+		Livro livro = new Livro("", "Banco de Dados", "C. J. Date");
+		biblioteca.save(livro);
+		String isbnInvalido = biblioteca.isbnInvalido(livro.getIsbn());
+		// Testando com 0 caracter
+		assertEquals("ISBN deve ter 4 caracteres", isbnInvalido);
+		// Testando com 1 caracter
+		livro.setIsbn("1");
+		isbnInvalido = biblioteca.isbnInvalido(livro.getIsbn());
+		assertEquals("ISBN deve ter 4 caracteres", isbnInvalido);
+		// Testando com 2 caracteres
+		livro.setIsbn("12");
+		isbnInvalido = biblioteca.isbnInvalido(livro.getIsbn());
+		assertEquals("ISBN deve ter 4 caracteres", isbnInvalido);
+		// Testando com 3 caracteres
+		livro.setIsbn("123");
+		isbnInvalido = biblioteca.isbnInvalido(livro.getIsbn());
+		assertEquals("ISBN deve ter 4 caracteres", isbnInvalido);
+		// Testando com 5 caracteres
+		livro.setIsbn("12345");
+		isbnInvalido = biblioteca.isbnInvalido(livro.getIsbn());
+		assertEquals("ISBN deve ter 4 caracteres", isbnInvalido);
+	}
+
+	@Test
+	public void CT07_TituloInvalido() {
+		Livro livro = new Livro("1234", "", "C. J. Date");
+		biblioteca.save(livro);
+		String tituloInvalido = biblioteca.tituloInvalido(livro.getTitulo());
+		// Testando com 0 caracter
+		assertEquals("Titulo deve ter entre 1 e 50 caracteres", tituloInvalido);
+		// Testando com 51 caracteres
+		livro.setTitulo("123456789012345678901234567890123456789012345678901");
+		tituloInvalido = biblioteca.tituloInvalido(livro.getTitulo());
+		assertEquals("Titulo deve ter entre 1 e 50 caracteres", tituloInvalido);
+	}
+
+	@Test
+	public void CT08_AutorInvalido() {
+		Livro livro = new Livro("1234", "Banco de Dados", "");
+		biblioteca.save(livro);
+		String autorInvalido = biblioteca.autorInvalido(livro.getAutor());
+		// Testando com 0 caracter
+		assertEquals("Autor deve ter entre 1 e 50 caracteres", autorInvalido);
+		// Testando com 51 caracters
+		livro.setTitulo("123456789012345678901234567890123456789012345678901");
+		autorInvalido = biblioteca.autorInvalido(livro.getAutor());
 	}
 
 }
