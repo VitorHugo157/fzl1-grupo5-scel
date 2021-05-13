@@ -101,6 +101,7 @@ class Fzl1Grupo5ScelApplicationTests {
 		// Testando com 51 caracters
 		livro.setTitulo("123456789012345678901234567890123456789012345678901");
 		autorInvalido = biblioteca.autorInvalido(livro.getAutor());
+		assertEquals("Autor deve ter entre 1 e 50 caracteres", autorInvalido);
 	}
 
 }
