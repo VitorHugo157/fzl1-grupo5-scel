@@ -2,6 +2,8 @@ package br.edu.fateczl.fzl1grupo5scel.ts;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import br.edu.fateczl.fzl1grupo5scel.po.LivroPageObject;
+import br.edu.fateczl.fzl1grupo5scel.po.LoginPageObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class REQ04ExcluirLivroTSTests {
 
     private WebDriver driver;
+    private LivroPageObject livroPO;
+    private LoginPageObject loginPO;
 
     @BeforeEach
     public void setup() {
@@ -38,33 +42,11 @@ public class REQ04ExcluirLivroTSTests {
 
     @Test
     void CT01_LivroExcluidoComSucesso() {
-        driver.findElement(By.name("username")).click();
-        driver.findElement(By.name("username")).sendKeys("jose");
-        driver.findElement(By.name("password")).click();
-        driver.findElement(By.name("password")).sendKeys("123");
-        driver.findElement(By.cssSelector("button")).click();
-        esperar();
-        driver.findElement(By.linkText("Livros")).click();
-        esperar();
-        driver.findElement(By.id("isbn")).click();
-        driver.findElement(By.id("isbn")).sendKeys("1571");
-        driver.findElement(By.id("autor")).click();
-        driver.findElement(By.id("autor")).sendKeys("Carlos Alberto Heuser");
-        driver.findElement(By.id("titulo")).click();
-        driver.findElement(By.id("titulo")).sendKeys("Projeto de Banco de Dados");
-        driver.findElement(By.cssSelector(".btn:nth-child(1)")).click();
-        esperar();
-        driver.findElement(By.cssSelector("tr:nth-child(2) .delete")).click();
-        esperar();
-        // Verifica se o ISBN 1571 existe
-        try {
-            driver.findElement(By.cssSelector("tr:nth-child(2) > td:nth-child(2)")).getText();
-            // Como o livro foi excluído, terá uma exceção de elemento não encontrado
-            assertEquals("no such element: Unable to locate element: " +
-                            "{\"method\":\"css selector\",\"selector\":\"tr:nth-child(2) > td:nth-child(2)\"}",
-                    driver.findElement(By.cssSelector("tr:nth-child(2) > td:nth-child(2)")).getText());
-        } catch (NoSuchElementException e) {
-            System.out.println(e.getMessage());
-        }
+        loginPO = new LoginPageObject(driver);
+        livroPO = new LivroPageObject(driver);
+        loginPO.login("jose", "123");
+        livroPO.cadastrar("1571", "Carlos Alberto Heuser", "Projeto de Banco de Dados");
+        livroPO.excluir();
+        assertThrows(NoSuchElementException.class, () -> { livroPO.getResult(); });
     }
 }
